@@ -1,0 +1,105 @@
+name: Build Bilibili PCDN rule-set
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # 每 24 小时一次：UTC 18:00 = 北京时间 02:00
+    # 注：GitHub 的 schedule 是"尽力而为"，可能迟到数小时；
+    #     需要立刻更新时到 Actions 页点 "Run workflow"。
+    - cron: '0 18 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-bili-pcdn
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # 与路由器上的内核保持一致，避免 .srs 版本差异
+      SING_BOX_VERSION: 1.12.25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install sing-box
+        run: |
+          set -Eeuo pipefail
+          url="https://github.com/SagerNet/sing-box/releases/download/v${SING_BOX_VERSION}/sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz"
+          curl -fsSL --retry 3 -o sing-box.tar.gz "$url"
+          tar -xzf sing-box.tar.gz
+          sudo install -m 0755 "sing-box-${SING_BOX_VERSION}-linux-amd64/sing-box" /usr/local/bin/sing-box
+          sing-box version
+
+      - name: Tool check
+        run: |
+          set -Eeuo pipefail
+          command -v jq && jq --version
+          command -v curl
+          command -v sha256sum
+
+      # 采集：上游结构变了会在这里直接失败（不会产出半残规则集）
+      - name: Collect from upstream
+        run: sh ./scripts/collect.sh
+
+      # 编译 + 往返校验 + 实际匹配自测（正向/反向）
+      - name: Build and self-test
+        run: sh ./scripts/build.sh
+
+      - name: Report to step summary
+        if: always()
+        run: |
+          set -Eeuo pipefail
+          {
+            echo '## 采集报告'
+            echo ''
+            [ -f report/collect.md ] && cat report/collect.md || echo '_(未生成 report/collect.md)_'
+            echo ''
+            echo '## 构建报告'
+            echo ''
+            [ -f report/report.md ] && cat report/report.md || echo '_(未生成 report/report.md)_'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bili-pcdn-build
+          if-no-files-found: ignore
+          path: |
+            dist/
+            report/
+            src/
+
+      - name: Verify artifacts
+        run: |
+          set -Eeuo pipefail
+          for f in dist/bili-pcdn.srs dist/bili-pcdn.json dist/bili-pcdn-domains.txt; do
+            [ -s "$f" ] || { echo "::error::缺少产物 $f"; exit 1; }
+            echo "$f  $(wc -c < "$f")B"
+          done
+          # .srs 至少得有 32B（空规则集约 20B）
+          size=$(wc -c < dist/bili-pcdn.srs)
+          [ "$size" -ge 32 ] || { echo "::error::dist/bili-pcdn.srs 异常 (${size}B)"; exit 1; }
+
+      - name: Commit results
+        run: |
+          set -Eeuo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/ dist/ report/
+          if git diff --staged --quiet; then
+            echo "内容无变化，跳过提交（上游未更新或抽取结果相同）"
+            exit 0
+          fi
+          # 报告/产物内容变化 ⇒ 说明上游判定逻辑或清单变了，提交留痕便于回溯
+          git commit -m "chore: 重建规则集 $(date -u +%Y-%m-%dT%H:%M:%SZ) [skip ci]"
+          git push

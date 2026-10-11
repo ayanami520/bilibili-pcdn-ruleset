@@ -1,0 +1,9 @@
+# 全部文本文件统一 LF，避免 Windows 编辑产生的 CRLF 让
+# scripts/test.sh 里的 cmp 比较（以及 CI 里的 diff）出现假差异
+* text=auto eol=lf
+
+# 二进制产物：不要做行尾转换，且标记为生成文件
+dist/*.srs binary
+dist/*.srs linguist-generated=true
+dist/*.json linguist-generated=true
+dist/*-domains.txt linguist-generated=true

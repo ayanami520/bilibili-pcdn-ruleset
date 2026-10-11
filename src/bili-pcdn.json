@@ -1,0 +1,27 @@
+{
+  "rules": [
+    {
+      "domain_suffix": [
+        "ahdohpiechei.com",
+        "mcdn.bilivideo.cn",
+        "mcdn.bilivideo.com",
+        "mcdn.bilivideo.net",
+        "nexusedgeio.com",
+        "szbdyd.com",
+        "upos-sz-mirror14b.bilivideo.com"
+      ]
+    },
+    {
+      "domain_keyword": [
+        "302kodo",
+        "302ppio"
+      ]
+    },
+    {
+      "domain_regex": [
+        "^[^.]*302[^.]*\\.bilivideo\\.(com|cn|net)$"
+      ]
+    }
+  ],
+  "version": 1
+}

@@ -1,0 +1,10 @@
+# 构建中间产物（每次都重新生成，不提交）
+.build/
+
+# 报告中间文件（.full 等），报告本身 report/*.md 要提交
+report/.roundtrip.json
+report/build.log
+
+# 编辑器/系统
+.DS_Store
+Thumbs.db
