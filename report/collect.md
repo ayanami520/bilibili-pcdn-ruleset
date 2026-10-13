@@ -6,7 +6,7 @@
 | 项 | 值 |
 |---|---|
 | 上游 master | `https://raw.githubusercontent.com/SukkaW/Make-Bilibili-Great-Than-Ever-Before/master` |
-| cdn-classify.ts | 130 行 · sha256 `8b3cf61138e4dcef9300d33b3a5b3afc40f60ff4a3fdb2e83062c3c6caea0d19` |
+| cdn-classify.ts | 115 行 · sha256 `849a3ae8cf14c0ca13c4e545fcaf4956777b091631743fc84a2e8f41c025db57` |
 | no-p2p/policy.ts | 59 行 · sha256 `17568e1f61a61bd89b7b9300c519f26c569b8eede7c2f1c9af75414cd5aa1786` |
 | 抽取条目 | 上游 7 条 |
 | 产出 | `domain_suffix` 7 · `domain_keyword` 2 · `domain_regex` 1 |
