@@ -2,9 +2,11 @@
 # 仅含 domain_suffix 条目；domain_keyword(2 条) 与 domain_regex 见 dist/bili-pcdn.json
 # 上游: SukkaW/Make-Bilibili-Great-Than-Ever-Before (MIT)
 ahdohpiechei.com
+bvmlt.top
 mcdn.bilivideo.cn
 mcdn.bilivideo.com
 mcdn.bilivideo.net
+mountaintoys.cn
 nexusedgeio.com
 szbdyd.com
 upos-sz-mirror14b.bilivideo.com

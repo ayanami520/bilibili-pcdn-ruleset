@@ -6,10 +6,10 @@
 | 项 | 值 |
 |---|---|
 | 上游 master | `https://raw.githubusercontent.com/SukkaW/Make-Bilibili-Great-Than-Ever-Before/master` |
-| cdn-classify.ts | 115 行 · sha256 `849a3ae8cf14c0ca13c4e545fcaf4956777b091631743fc84a2e8f41c025db57` |
+| cdn-classify.ts | 117 行 · sha256 `4f819d2e65a5cb5551020301a5be81d7ffd980ce72c3437cee36d2ba9e1f7633` |
 | no-p2p/policy.ts | 59 行 · sha256 `8973fd0464ff88e66186f8699448a1df9e4cfec992efae97b3da3dd864fa3415` |
-| 抽取条目 | 上游 7 条 |
-| 产出 | `domain_suffix` 7 · `domain_keyword` 2 · `domain_regex` 1 |
+| 抽取条目 | 上游 9 条 |
+| 产出 | `domain_suffix` 9 · `domain_keyword` 2 · `domain_regex` 1 |
 
 ## 逐条映射
 
@@ -21,6 +21,8 @@
 | `szbdyd.com` | domain_suffix: szbdyd.com |
 | `.nexusedgeio.com` | domain_suffix: nexusedgeio.com |
 | `.ahdohpiechei.com` | domain_suffix: ahdohpiechei.com |
+| `.mountaintoys.cn` | domain_suffix: mountaintoys.cn |
+| `.bvmlt.top` | domain_suffix: bvmlt.top |
 | `upos-sz-mirror14b.bilivideo.com` | domain_suffix: upos-sz-mirror14b.bilivideo.com |
 
 ## 盲区（域名层拦不住的部分）
