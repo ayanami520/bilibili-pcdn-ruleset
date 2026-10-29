@@ -21,7 +21,7 @@ sing-box（binary）: https://gh-proxy.com/https://raw.githubusercontent.com/aya
 ```
 # 上游锁定信息 —— 由 scripts/collect.sh 生成（采集策略：跟随 master 最新）
 # 本文件用于检测"上游判定逻辑是否变了"：变了会体现在报告里，便于人工复核。
-4f819d2e65a5cb5551020301a5be81d7ffd980ce72c3437cee36d2ba9e1f7633  src/core/player/cdn-classify.ts
+84d7861ab9136aa72fb079b2a40dccc94655ff5c2d609aba6054fc26dd145995  src/core/player/cdn-classify.ts
 8973fd0464ff88e66186f8699448a1df9e4cfec992efae97b3da3dd864fa3415  src/modules/no-p2p/policy.ts
 # 抽取统计: 上游条目=9  domain_suffix=9  domain_keyword=2  domain_regex=1
 ```
